@@ -270,7 +270,7 @@ class KDLKinematics(object):
     # @param max_joints List of joint angles to upper bound the angles on the IK search.
     #                   If None, the safety limits are used.
     # @return np.array of joint angles needed to reach the pose or None if no solution was found.
-    def inverse_search(self, pose, timeout=1., min_joints=None, max_joints=None):
+    def inverse_search(self, pose, timeout=10., min_joints=None, max_joints=None):
         st_time = rospy.get_time()
         if min_joints is None:
             min_joints = self.joint_safety_lower
@@ -378,6 +378,7 @@ class KDLKinematics(object):
     ##
     # Performs an IK search while trying to balance the demands of reaching the goal,
     # maintaining a posture, and prioritizing rotation or position.
+    # (self, pose, timeout=10., min_joints=None, max_joints=None):
     def inverse_biased(self, pose, q_init, q_bias, q_bias_weights, rot_weight=1.,
                        bias_vel=0.01, num_iter=100):
         # This code is potentially volatile
